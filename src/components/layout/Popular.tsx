@@ -7,7 +7,6 @@ const P = [
   "photo-1550745165-9bc0b252726f",
 ];
 
-// Placeholder data — swap images/shots for real capsule art + screenshots
 const games = [
   { id: 1, title: "AION 2", tags: ["Free to Play", "MMORPG", "Massively Multiplayer", "Adventure"], extra: ["Open World"], date: "5 Oct, 2026", free: true, reviews: ["Mostly Positive", 3702] },
   { id: 2, title: "Sengoku Rance", tags: ["RPG", "Strategy", "Adventure", "Turn-Based Combat"], date: "1 Oct, 2026", off: 20, was: 509, price: 407, reviews: ["Very Positive", 1280] },
@@ -25,7 +24,7 @@ const games = [
 
 const tabs = [
   { id: "new", label: "Popular New Releases", list: games },
-  { id: "top", label: "Top Sellers", list: [...games].sort((a, b) => b.reviews[1] - a.reviews[1]) },
+  { id: "top", label: "Top Sellers", list: [...games].sort((a:any, b:any) => b.reviews[1] - a.reviews[1]) },
   { id: "upcoming", label: "Popular Upcoming", list: [...games].reverse() },
   { id: "free", label: "Trending Free", list: games.filter((g) => g.free) },
 ];

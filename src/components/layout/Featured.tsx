@@ -3,7 +3,6 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const u = (id) => `https://images.unsplash.com/${id}?w=900&q=85`;
 
-// Placeholder art — swap `img` for your real capsule images
 const featured = [
   { id: 1, title: "Kingdom Two Crowns", img: u("photo-1511512578047-dfb367046420"), off: 90, was: "880", now: "88" },
   { id: 2, title: "Steep", img: u("photo-1519681393784-d120267933ba"), off: 95, was: "1,499", now: "74" },
