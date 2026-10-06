@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
-const u = (id, w = 700) => `https://images.unsplash.com/${id}?w=${w}&q=85`;
+const u = (id: string, w = 700) => `https://images.unsplash.com/${id}?w=${w}&q=85`;
 const P = [
   "photo-1511512578047-dfb367046420", "photo-1542751371-adc38448a05e", "photo-1593305841991-05c297ba4575",
   "photo-1605899435973-ca2d1a8861cf", "photo-1619252584172-a83a949b6efd", "photo-1519681393784-d120267933ba",
@@ -24,15 +25,15 @@ const games = [
 
 const tabs = [
   { id: "new", label: "Popular New Releases", list: games },
-  { id: "top", label: "Top Sellers", list: [...games].sort((a:any, b:any) => b.reviews[1] - a.reviews[1]) },
+  { id: "top", label: "Top Sellers", list: [...games].sort((a: any, b: any) => b.reviews[1] - a.reviews[1]) },
   { id: "upcoming", label: "Popular Upcoming", list: [...games].reverse() },
   { id: "free", label: "Trending Free", list: games.filter((g) => g.free) },
 ];
 
-const fmt = (n) => `₹${n.toLocaleString("en-IN", { minimumFractionDigits: 2 })}`;
-const tone = (r) => (r.startsWith("Mixed") ? "text-[#b9a074]" : "text-[#66c0f4]");
+const fmt = (n: number) => `₹${n.toLocaleString("en-IN", { minimumFractionDigits: 2 })}`;
+const tone = (r: string) => (r.startsWith("Mixed") ? "text-[#b9a074]" : "text-[#66c0f4]");
 
-function Price({ g }) {
+function Price({ g }: { g: any }) {
   if (g.free) return <span className="rounded-[2px] bg-black/40 px-3 py-1.5 text-[14px] text-white">Free</span>;
   return (
     <div className="flex items-stretch text-[15px] leading-none">
@@ -49,8 +50,9 @@ function Price({ g }) {
 
 export default function PopularReleases() {
   const [tab, setTab] = useState("new");
-  const list = tabs.find((t) => t.id === tab).list;
-  const [activeId, setActiveId] = useState(null);
+  const currentTab = tabs.find((t) => t.id === tab);
+  const list = currentTab ? currentTab.list : games;
+  const [activeId, setActiveId] = useState<number | null>(null);
   const active = list.find((g) => g.id === activeId) ?? list[0];
 
   return (
@@ -76,8 +78,8 @@ export default function PopularReleases() {
           <ul className="flex-1 space-y-[10px]">
             {list.map((g) => (
               <li key={g.id}>
-                <a
-                  href="#"
+                <Link
+                  to="/agegate"
                   onMouseEnter={() => setActiveId(g.id)}
                   className={`flex h-[87px] overflow-hidden transition-colors duration-200 ${
                     active.id === g.id ? "bg-[#7a3b28]" : "bg-[#5b2416] hover:bg-[#6b2f1f]"
@@ -92,7 +94,7 @@ export default function PopularReleases() {
                     <p className="text-[13px] text-[#b9a199]">Released: {g.date}</p>
                     <div className="absolute bottom-2.5 right-3"><Price g={g} /></div>
                   </div>
-                </a>
+                </Link>
               </li>
             ))}
             {list.length === 0 && <li className="py-10 text-center text-white/50">Nothing here yet.</li>}
@@ -106,7 +108,7 @@ export default function PopularReleases() {
                 <div className="mt-3 px-2 text-[12px] text-[#e0cfc9]">
                   English Reviews
                   <div>
-                    <span className={tone(active.reviews[0])}>{active.reviews[0]}</span> ({active.reviews[1].toLocaleString()})
+                    <span className={tone(active.reviews[0] as string)}>{active.reviews[0]}</span> ({(active.reviews[1] as number).toLocaleString()})
                   </div>
                 </div>
                 <div className="mt-2 flex flex-wrap gap-1.5 px-2">

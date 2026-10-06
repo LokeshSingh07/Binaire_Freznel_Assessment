@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { ChevronLeft, ChevronRight, Star, ShoppingCart } from "lucide-react";
 
 const games = [
@@ -89,7 +90,7 @@ function PriceTag({ game, small = false }) {
 
 function GameCard({ game }) {
   return (
-    <div className="group overflow-hidden bg-[#171d25] shadow-lg transition duration-300 hover:shadow-2xl">
+    <Link to="/agegate" className="group block overflow-hidden bg-[#171d25] shadow-lg transition duration-300 hover:shadow-2xl">
       <div className="relative aspect-[0.78] overflow-hidden">
         <img src={game.image} alt={game.title} className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
         <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/80 to-transparent" />
@@ -106,20 +107,22 @@ function GameCard({ game }) {
           <span className="text-gray-600">({game.reviews.toLocaleString()})</span>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 
 function GamePreview({ game }) {
   return (
     <div className="absolute left-1/2 top-0 w-[370px] -translate-x-1/2 overflow-hidden bg-[#713521] shadow-[0_15px_50px_rgba(0,0,0,0.8)]">
-      <div className="relative h-[220px] overflow-hidden">
+      <Link to="/agegate" className="relative block h-[220px] overflow-hidden">
         <img src={game.previewImage} alt={game.title} className="h-full w-full object-cover" />
         <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#713521] to-transparent" />
-      </div>
+      </Link>
 
       <div className="min-h-[235px] px-5 py-4">
-        <h2 className="text-[23px] font-semibold leading-tight text-white">{game.title}</h2>
+        <Link to="/agegate" className="block hover:underline">
+          <h2 className="text-[23px] font-semibold leading-tight text-white">{game.title}</h2>
+        </Link>
 
         <div className="mt-2 text-[12px]">
           <span className="text-[#66c0f4]">{game.reviewText}</span>
@@ -128,17 +131,17 @@ function GamePreview({ game }) {
 
         <div className="mt-3 flex flex-wrap gap-1.5">
           {game.tags.map((tag) => (
-            <span key={tag} className="rounded-[2px] bg-[#875344] px-2 py-1 text-[12px] text-[#ddd]">
+            <Link key={tag} to="/explore" className="rounded-[2px] bg-[#875344] px-2 py-1 text-[12px] text-[#ddd] hover:bg-[#a66856]">
               {tag}
-            </span>
+            </Link>
           ))}
         </div>
 
         <div className="mt-12 flex items-center justify-between">
-          <button className="flex items-center gap-2 bg-[#75a900] px-4 py-2 text-[14px] font-medium text-white transition hover:bg-[#8bc400]">
+          <Link to="/explore" className="flex items-center gap-2 bg-[#75a900] px-4 py-2 text-[14px] font-medium text-white transition hover:bg-[#8bc400]">
             <ShoppingCart size={15} />
-            Add to Cart
-          </button>
+            Explore Store
+          </Link>
           <PriceTag game={game} small />
         </div>
       </div>
@@ -147,15 +150,15 @@ function GamePreview({ game }) {
 }
 
 export default function HeroSection() {
-  const carouselRef = useRef(null);
-  const [search, setSearch] = useState("");
-  const [hoveredGame, setHoveredGame] = useState(null);
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const [search] = useState("");
+  const [hoveredGame, setHoveredGame] = useState<number | null>(null);
 
   const filteredGames = games.filter((game) =>
     game.title.toLowerCase().includes(search.toLowerCase())
   );
 
-  const scrollCarousel = (direction) => {
+  const scrollCarousel = (direction: "left" | "right") => {
     if (!carouselRef.current) return;
     carouselRef.current.scrollBy({
       left: direction === "left" ? -390 : 390,

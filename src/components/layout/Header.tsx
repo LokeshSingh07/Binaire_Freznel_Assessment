@@ -1,6 +1,5 @@
 import { useState } from "react";
-
-const MAIN_NAV = ["AGEGate", "EXPLORE"];
+import { Link } from "react-router-dom";
 
 const STORE_NAV = ["Browse", "Recommendations", "Categories", "Ways to Play", "Special Sections"];
 
@@ -28,7 +27,7 @@ export default function SteamHeader() {
   const [activeTab, setActiveTab] = useState("STORE");
   const [query, setQuery] = useState("");
 
-  const handleSearch = (e) => {
+  const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Search:", query);
   };
@@ -60,27 +59,42 @@ export default function SteamHeader() {
           </div>
 
           <div className="flex h-full items-center pt-3.5">
-            <a href="#home" aria-label="Steam" className="mr-8 flex shrink-0 items-center gap-3">
+            <Link to="/" aria-label="Steam" className="mr-8 flex shrink-0 items-center gap-3">
               <SteamLogo />
               <span className="text-2xl font-bold tracking-[2px] text-[#c5c3c0]">
                 STEAM
                 <sup className="ml-px align-top text-[8px]">®</sup>
               </span>
-            </a>
+            </Link>
 
             <nav className="flex gap-[18px] overflow-x-auto" aria-label="Main">
-              {MAIN_NAV.map((item) => (
-                <a
-                  key={item}
-                  href={`/${item.toLowerCase()}`}
-                  onClick={() => setActiveTab(item)}
-                  className={`border-b-2 pb-1 text-xl font-medium tracking-[0.3px] transition-colors hover:text-[#1a9fff] ${
-                    activeTab === item ? "border-[#1a9fff] text-[#1a9fff]" : "border-transparent text-white"
-                  }`}
-                >
-                  {item}
-                </a>
-              ))}
+              <Link
+                to="/"
+                onClick={() => setActiveTab("STORE")}
+                className={`border-b-2 pb-1 text-xl font-medium tracking-[0.3px] transition-colors hover:text-[#1a9fff] ${
+                  activeTab === "STORE" ? "border-[#1a9fff] text-[#1a9fff]" : "border-transparent text-white"
+                }`}
+              >
+                STORE
+              </Link>
+              <Link
+                to="/agegate"
+                onClick={() => setActiveTab("AGEGATE")}
+                className={`border-b-2 pb-1 text-xl font-medium tracking-[0.3px] transition-colors hover:text-[#1a9fff] ${
+                  activeTab === "AGEGATE" ? "border-[#1a9fff] text-[#1a9fff]" : "border-transparent text-white"
+                }`}
+              >
+                AGEGATE
+              </Link>
+              <Link
+                to="/explore"
+                onClick={() => setActiveTab("EXPLORE")}
+                className={`border-b-2 pb-1 text-xl font-medium tracking-[0.3px] transition-colors hover:text-[#1a9fff] ${
+                  activeTab === "EXPLORE" ? "border-[#1a9fff] text-[#1a9fff]" : "border-transparent text-white"
+                }`}
+              >
+                EXPLORE
+              </Link>
             </nav>
           </div>
         </div>
@@ -90,14 +104,14 @@ export default function SteamHeader() {
         <div className="mx-auto flex min-h-[54px] w-full max-w-[1400px] flex-col items-stretch gap-2 px-6 py-2 lg:h-[54px] lg:flex-row lg:items-center lg:justify-between lg:px-8 lg:py-0">
           <nav className="flex items-center gap-1 overflow-x-auto" aria-label="Store">
             {STORE_NAV.map((item) => (
-              <button
+              <Link
                 key={item}
-                type="button"
+                to="/explore"
                 className="inline-flex h-9 shrink-0 items-center gap-2 px-3 text-base text-[#c6d4df] transition-colors hover:bg-white/10 hover:text-white"
               >
                 {item}
                 <Chevron />
-              </button>
+              </Link>
             ))}
           </nav>
 

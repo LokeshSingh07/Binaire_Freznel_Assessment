@@ -1,7 +1,8 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-const u = (id) => `https://images.unsplash.com/${id}?w=900&q=85`;
+const u = (id: string) => `https://images.unsplash.com/${id}?w=900&q=85`;
 
 const featured = [
   { id: 1, title: "Kingdom Two Crowns", img: u("photo-1511512578047-dfb367046420"), off: 90, was: "880", now: "88" },
@@ -23,7 +24,7 @@ const grid = [
   { id: 8, title: "Stellar Blade", img: u("photo-1511512578047-dfb367046420"), off: 20, was: "3,499", now: "2,799" },
 ];
 
-function Price({ g }) {
+function Price({ g }: { g: any }) {
   return (
     <div className="flex items-stretch text-[14px] leading-none">
       <span className="bg-[#a4d007] px-1.5 py-[5px] text-[16px] font-bold text-[#1a2b05]">-{g.off}%</span>
@@ -37,7 +38,7 @@ export default function FeaturedDeepDiscounts() {
   const perPage = 3;
   const pages = Math.ceil(featured.length / perPage);
   const [page, setPage] = useState(0);
-  const go = (d) => setPage((p) => (p + d + pages) % pages);
+  const go = (d: number) => setPage((p) => (p + d + pages) % pages);
 
   return (
     <div className="min-h-screen bg-[#2a1410] px-4 py-10 text-white">
@@ -49,12 +50,11 @@ export default function FeaturedDeepDiscounts() {
               <h2 className="text-[21px] font-bold leading-tight">Featured Deep Discounts</h2>
               <p className="mt-1 text-[16px] text-[#c9b4ad]">Especially great deals on some of the all-time greats</p>
             </div>
-            <button className="bg-[#d6d7d9] px-5 py-2 text-[15px] font-medium text-[#1b2838] transition hover:bg-white">
+            <Link to="/explore" className="bg-[#d6d7d9] px-5 py-2 text-[15px] font-medium text-[#1b2838] transition hover:bg-white">
               See All
-            </button>
+            </Link>
           </div>
 
-          {/* Arrows (outside the panel) */}
           <button aria-label="Previous" onClick={() => go(-1)} className="absolute -left-12 top-[190px] hidden text-white/70 transition hover:text-white lg:block">
             <ChevronLeft size={48} strokeWidth={2} />
           </button>
@@ -62,27 +62,25 @@ export default function FeaturedDeepDiscounts() {
             <ChevronRight size={48} strokeWidth={2} />
           </button>
 
-          {/* Slider */}
           <div className="overflow-hidden">
             <div className="flex transition-transform duration-500 ease-out" style={{ transform: `translateX(-${page * 100}%)` }}>
               {Array.from({ length: pages }).map((_, p) => (
                 <div key={p} className="grid w-full shrink-0 grid-cols-1 gap-3 md:grid-cols-3">
                   {featured.slice(p * perPage, p * perPage + perPage).map((g) => (
-                    <a key={g.id} href="#" className="group block">
+                    <Link key={g.id} to="/agegate" className="group block">
                       <div className="relative aspect-[382/219] overflow-hidden bg-black">
                         <img src={g.img} alt={g.title} className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                         <span className="absolute bottom-3 left-4 text-[22px] font-black uppercase tracking-tight drop-shadow">{g.title}</span>
                       </div>
                       <div className="flex justify-end"><Price g={g} /></div>
-                    </a>
+                    </Link>
                   ))}
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Dots */}
           <div className="mt-3 flex justify-center gap-1.5">
             {Array.from({ length: pages }).map((_, i) => (
               <button
@@ -98,7 +96,7 @@ export default function FeaturedDeepDiscounts() {
         {/* ---------- Grid ---------- */}
         <section className="mt-[30px] grid grid-cols-2 gap-x-3 gap-y-3 md:grid-cols-4">
           {grid.map((g) => (
-            <a key={g.id} href="#" className="group block outline outline-2 -outline-offset-2 outline-transparent transition hover:outline-white">
+            <Link key={g.id} to="/agegate" className="group block outline outline-2 -outline-offset-2 outline-transparent transition hover:outline-white">
               <div className="relative aspect-[291/166] overflow-hidden bg-black">
                 <img src={g.img} alt={g.title} className="h-full w-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
@@ -110,7 +108,7 @@ export default function FeaturedDeepDiscounts() {
                 )}
               </div>
               <div className="flex justify-end"><Price g={g} /></div>
-            </a>
+            </Link>
           ))}
         </section>
       </div>
